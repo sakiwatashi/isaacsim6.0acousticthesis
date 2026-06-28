@@ -24,6 +24,8 @@
 | [`thesis/THESIS_DRAFT_FCU_v1.docx`](thesis/THESIS_DRAFT_FCU_v1.docx) | **論文 Word 初稿**（六章版） |
 | [`thesis/THESIS_OUTLINE_FCU_2026-06-29.md`](thesis/THESIS_OUTLINE_FCU_2026-06-29.md) | 論文大綱（電聲學程 · 六章） |
 | [`thesis/REPLICATION_PACKAGE.md`](thesis/REPLICATION_PACKAGE.md) | 口試重現步驟 |
+| [`REPRODUCIBILITY_AUDIT.md`](REPRODUCIBILITY_AUDIT.md) | 主實驗可審計協定（30/30、claim、citation 風險） |
+| [`DATA_MANIFEST.md`](DATA_MANIFEST.md) | Raw / canonical 資料契約與 checksum |
 | [`scripts/`](scripts/) | Isaac Sim：Passport、RTX factory、Phase 3 主實驗 |
 | [`lab/`](lab/) | Isaac Lab：動態環境、SL、in-sim RSL-RL |
 | [`runtime/outputs/`](runtime/outputs/) | Canonical 實驗結果（摘要表、圖；不含 raw repeat CSV） |
@@ -34,7 +36,7 @@
 
 此 repo **不含** Isaac Sim 安裝包（`app/`）與 Isaac Lab 上游 clone，需在本機 DGX 預先安裝：
 
-- Isaac Sim 6.0 host standalone（路徑慣例：`/home/lab109/song/isaacsim6.0/app`）
+- Isaac Sim **6.0.0-rc.59** host standalone（路徑慣例：`/home/lab109/song/isaacsim6.0/app`；非 Docker `6.0.0` 映像）
 - Isaac Lab（`IsaacLab/`，符號連結至 `_isaac_sim`）
 - NVIDIA GPU + RTX Acoustic experimental 延伸
 
@@ -57,11 +59,15 @@ ${APP_ROOT}/apps/isaacsim.exp.base.python.kit
 
 ```bash
 bash scripts/run_phase3_repeatability_and_analysis.sh
-bash scripts/run_phase3_rtx_pra_comparison.sh
 ```
 
-Canonical 輸出已收錄於：  
-`runtime/outputs/phase3_rtx_pra_comparison_fixed_tcp_repeatability_v1/`
+**輸出三層：**
+
+| 層級 | 路徑 | 進 git？ |
+|------|------|----------|
+| Raw repeat（6×5 runs） | `runtime/outputs/fixed_tcp_repeatability_v1/` | ❌ — 見 [`DATA_MANIFEST.md`](DATA_MANIFEST.md) |
+| Feature extract | `runtime/outputs/phase3_rtx_features/fixed_tcp_repeatability_v1_distance_features.csv` | ❌ |
+| **Canonical comparison** | `runtime/outputs/phase3_rtx_pra_comparison_fixed_tcp_repeatability_v1/` | ✅ |
 
 ### 2. Lab 動態觀測
 
@@ -105,8 +111,8 @@ python3 rebuild_thesis_six_chapters.py   # 六章完整重建
 
 | 可宣稱 | 不可宣稱 |
 |--------|----------|
-| 30/30 可重複；early_energy 距離趨勢 ρ≈−0.66 | 厘米級部署測距 |
-| RTX×PRA 趨勢一致（ρ≈+0.66） | 波形等價 |
+| 30/30 可重複；early_energy 距離趨勢 ρ≈−0.66 (n=6) | 厘米級部署測距 |
+| RTX×PRA early energy 中度正相關趨勢（ρ≈+0.66, p≈0.16, n=6）— pilot cross-model only | 波形等價、跨模型統計顯著一致 |
 | Lab 動態 ρ≈−0.48；Sim→Lab SL r≈0.47 | MAE 0.41 m 可上實機 |
 | in-sim RL 閉環可跑通 | RL 優於 SL |
 

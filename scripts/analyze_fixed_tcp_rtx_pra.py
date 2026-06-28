@@ -18,6 +18,18 @@ DEFAULT_PRA_FEATURES = (
 )
 DEFAULT_OUTPUT_ROOT = Path("/home/lab109/song/isaacsim6.0/runtime/outputs/phase3_rtx_pra_comparison")
 
+
+def repo_relative(path: Path | str, repo_root: Path | None = None) -> str | None:
+    """Return path relative to repo root when possible (for portable reports)."""
+    path = Path(path).resolve()
+    if repo_root is None:
+        repo_root = Path(__file__).resolve().parents[1]
+    try:
+        return str(path.relative_to(repo_root.resolve()))
+    except ValueError:
+        return None
+
+
 RTX_METRICS = [
     ("amplitude_max_mean", "RTX GMO amplitude max distance trend"),
     ("amplitude_mean_mean", "RTX GMO amplitude mean distance trend"),
@@ -345,23 +357,45 @@ def main() -> None:
         correlation_rows,
     )
 
-    report_path = args.output_root / "PHASE3_RTX_PRA_REPORT.json"
-    report_path.write_text(
-        json.dumps(
-            {
-                "material_condition": args.material_condition,
-                "absorption_label": absorption_label,
-                "rtx_features": str(args.rtx_features),
-                "pra_features": str(args.pra_features),
-                "comparison_rows": len(comparison_rows),
-                "figure_paths": figure_paths,
-                "claim_boundary": "Trend-level cross-model characterization only; not RTX validation against PRA.",
-            },
-            indent=2,
-        )
-        + "\n",
-        encoding="utf-8",
+    repo_root = Path(__file__).resolve().parents[1]
+    rtx_early_energy_row = next(
+        (
+            row
+            for row in correlation_rows
+            if row.get("comparison") == "rtx_vs_pra"
+            and row.get("x_feature") == "primary_sgw_early_energy_mean"
+            and row.get("y_feature") == "early_energy_50ms"
+        ),
+        None,
     )
+    report = {
+        "material_condition": args.material_condition,
+        "absorption_label": absorption_label,
+        "rtx_features": str(args.rtx_features),
+        "rtx_features_relative": repo_relative(args.rtx_features, repo_root),
+        "pra_features": str(args.pra_features),
+        "pra_features_relative": repo_relative(args.pra_features, repo_root),
+        "comparison_rows": len(comparison_rows),
+        "figure_paths": figure_paths,
+        "figure_paths_relative": [repo_relative(path, repo_root) for path in figure_paths],
+        "path_note": "Absolute paths record the host that produced this report; use *_relative fields after cloning.",
+        "claim_boundary": "Trend-level cross-model characterization only; not RTX validation against PRA.",
+    }
+    if rtx_early_energy_row:
+        report["rtx_vs_pra_early_energy"] = {
+            "x_feature": rtx_early_energy_row["x_feature"],
+            "y_feature": rtx_early_energy_row["y_feature"],
+            "rho": float(rtx_early_energy_row["rho"]),
+            "p_value": float(rtx_early_energy_row["p_value"]),
+            "n": int(rtx_early_energy_row["n"]),
+            "interpretation": (
+                "Moderate positive trend; not statistically significant at n=6. "
+                "Pilot cross-model characterization only."
+            ),
+        }
+
+    report_path = args.output_root / "PHASE3_RTX_PRA_REPORT.json"
+    report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
 
     print(f"Comparison rows: {len(comparison_rows)}")
     print(f"Wrote {comparison_csv}")

@@ -2,12 +2,29 @@
   "material_condition": "B",
   "absorption_label": "medium_absorption",
   "rtx_features": "/home/lab109/song/isaacsim6.0/runtime/outputs/phase3_rtx_features/fixed_tcp_repeatability_v1_distance_features.csv",
+  "rtx_features_relative": "runtime/outputs/phase3_rtx_features/fixed_tcp_repeatability_v1_distance_features.csv",
   "pra_features": "/home/lab109/song/isaacsim6.0/runtime/outputs/experiment_4_pra_reference_passport_v1_cond_B/pra_reference_features.csv",
+  "pra_features_relative": "runtime/outputs/experiment_4_pra_reference_passport_v1_cond_B/pra_reference_features.csv",
+  "pra_features_relative_git": "runtime/outputs/phase3_material_sensitivity_sgw/pra_cond_B/pra_reference_features.csv",
   "comparison_rows": 6,
   "figure_paths": [
     "/home/lab109/song/isaacsim6.0/runtime/outputs/phase3_rtx_pra_comparison_fixed_tcp_repeatability_v1/rtx_amplitude_max_vs_distance.png",
     "/home/lab109/song/isaacsim6.0/runtime/outputs/phase3_rtx_pra_comparison_fixed_tcp_repeatability_v1/pra_features_vs_distance.png",
     "/home/lab109/song/isaacsim6.0/runtime/outputs/phase3_rtx_pra_comparison_fixed_tcp_repeatability_v1/rtx_signal_way_peak_vs_distance.png"
   ],
-  "claim_boundary": "Trend-level cross-model characterization only; not RTX validation against PRA."
+  "figure_paths_relative": [
+    "runtime/outputs/phase3_rtx_pra_comparison_fixed_tcp_repeatability_v1/rtx_amplitude_max_vs_distance.png",
+    "runtime/outputs/phase3_rtx_pra_comparison_fixed_tcp_repeatability_v1/pra_features_vs_distance.png",
+    "runtime/outputs/phase3_rtx_pra_comparison_fixed_tcp_repeatability_v1/rtx_signal_way_peak_vs_distance.png"
+  ],
+  "path_note": "Absolute paths record the DGX host that produced this report; use *_relative fields after cloning.",
+  "claim_boundary": "Trend-level cross-model characterization only; not RTX validation against PRA.",
+  "rtx_vs_pra_early_energy": {
+    "x_feature": "primary_sgw_early_energy_mean",
+    "y_feature": "early_energy_50ms",
+    "rho": 0.6571428571428573,
+    "p_value": 0.15617492711370246,
+    "n": 6,
+    "interpretation": "Moderate positive trend; not statistically significant at n=6. Pilot cross-model characterization only."
+  }
 }
