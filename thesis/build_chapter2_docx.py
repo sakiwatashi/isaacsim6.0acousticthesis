@@ -108,8 +108,9 @@ CHAPTER2 = [
         "在特徵—距離推理文獻方面，dEchorate 資料集（2021）提供標定 RIR 與回波特徵，"
         "支撐以聲學摘要特徵進行距離相關學習之可行性。"
         "本研究 Phase 3 以 PRA 萃取 early energy、RT60 等與 RTX 同幾何對齊，"
-        "實證兩者於距離軸上具一致趨勢（Spearman ρ≈0.66），但振幅尺度與飽和行為不同，"
-        "再次印證「趨勢可對、波形不等」之 claim boundary。",
+        "於 n=6 距離點觀察到 early energy 中度正相關趨勢（Spearman ρ≈+0.66, p≈0.16），"
+        "惟樣本數有限且未達顯著，僅作 pilot cross-model characterization；"
+        "振幅尺度與飽和行為亦不同，再次印證「趨勢可對、波形不等」之 claim boundary。",
     ),
     ("Header2", "2.6 文獻缺口與本研究定位"),
     (
@@ -175,7 +176,13 @@ Xu, X., Lu, Y., Vogel-Heuser, B., & Wang, L. (2024). Collaborative robotics, dig
 
 Zhmud, V., Yadykin, A., & Reznikov, B. (2018). Application of ultrasonic sensor for measuring distances in robotics. Journal of Physics: Conference Series, 1015(3), 032189. https://doi.org/10.1088/1742-6596/1015/3/032189
 
-Zhou, Z., Chen, X., Li, Y., & Wang, Y. (2024). Towards building AI-CPS with NVIDIA Isaac Sim for industrial manipulation. In Proceedings of the 2024 ACM/IEEE International Conference on Model-Driven Engineering Software and Systems (MSEC) (pp. 1–8). https://doi.org/10.1145/3639477.3639740"""
+Zhou, Z., Chen, X., Li, Y., & Wang, Y. (2024). Towards building AI-CPS with NVIDIA Isaac Sim for industrial manipulation. In Proceedings of the 2024 ACM/IEEE International Conference on Model-Driven Engineering Software and Systems (MSEC) (pp. 1–8). https://doi.org/10.1145/3639477.3639740
+
+NVIDIA. (2026d). Isaac Lab documentation (v3.0.0-beta2). https://isaac-sim.github.io/IsaacLab/
+
+Rudin, N., Hoeller, D., Reist, P., & Hutter, M. (2022). Learning to walk in minutes using massively parallel deep reinforcement learning. In Proceedings of the 6th Conference on Robot Learning (pp. 604–623).
+
+Schulman, J., Wolski, F., Dhariwal, P., Radford, A., & Klimov, O. (2017). Proximal policy optimization algorithms. arXiv:1707.06347. https://doi.org/10.48550/arXiv.1707.06347"""
 
 
 def insert_paragraph_after(paragraph: Paragraph, text: str, style: str) -> Paragraph:

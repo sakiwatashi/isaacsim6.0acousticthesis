@@ -33,10 +33,11 @@ FIG = {
 
 ABSTRACT_ZH = (
     "本研究從應用電聲角度，探討室內主動聲學回波特徵能否在可控幾何下支撐趨勢級距離推理。"
-    "研究平台為 NVIDIA Isaac Sim 6.0 RTX Acoustic，感測器懸掛於 Universal Robots UR10 末端；"
+    "研究平台為 NVIDIA Isaac Sim 6.0.0-rc.59 host standalone RTX Acoustic，感測器懸掛於 Universal Robots UR10 末端；"
     "實驗採固定 TCP、移動目標設計，於 0.5–3.0 m 範圍進行 6×5 次正式擷取，全部通過驗證（30/30 PASS）。"
-    "結果顯示 primary_sgw_early_energy 優於飽和之振幅峰值作為距離代理（Spearman ρ≈−0.66），"
-    "且與 PyRoomAcoustics 幾何聲學基線呈趨勢一致（ρ≈+0.66），惟非波形等價。"
+    "結果顯示 primary_sgw_early_energy 優於飽和之振幅峰值作為距離代理（Spearman ρ≈−0.66, n=6），"
+    "且與 PyRoomAcoustics early energy 呈中度正相關趨勢（ρ≈+0.66, p≈0.16, n=6），"
+    "僅作 pilot cross-model characterization，非波形等價。"
     "延伸實驗將同一 Geometry Passport 與特徵工廠接入 Isaac Lab：動態場景 128 steps 觀測中，"
     "early_energy 與 GT 距離 ρ≈−0.48；Sim 靜態標定訓練之線性回歸於 Lab hold-out 達 MAE≈0.41 m、r≈0.47。"
     "in-sim RSL-RL PPO 閉環示範訓練迴路可行，但 hold-out 未優於監督基線（v5 det MAE≈0.44 m）。"
@@ -45,10 +46,12 @@ ABSTRACT_ZH = (
 
 ABSTRACT_EN = (
     "This thesis examines, from an applied electro-acoustics perspective, whether indoor active acoustic echo "
-    "features support trend-level distance reasoning under controlled geometry. Using NVIDIA Isaac Sim 6.0 RTX "
-    "Acoustic on a UR10 end-effector with a fixed-TCP, moving-target protocol, all 30 formal captures (6 distances "
-    "× 5 repeats) passed validation. primary_sgw_early_energy outperformed saturated amplitude peaks as a distance "
-    "proxy (Spearman ρ≈−0.66) and trend-matched PyRoomAcoustics (ρ≈+0.66), without waveform equivalence. "
+    "features support trend-level distance reasoning under controlled geometry. Using NVIDIA Isaac Sim 6.0.0-rc.59 "
+    "host standalone RTX Acoustic on a UR10 end-effector with a fixed-TCP, moving-target protocol, all 30 formal "
+    "captures (6 distances × 5 repeats) passed validation. primary_sgw_early_energy outperformed saturated "
+    "amplitude peaks as a distance proxy (Spearman ρ≈−0.66, n=6) and showed a moderate positive trend with "
+    "PyRoomAcoustics early energy (ρ≈+0.66, p≈0.16, n=6) as pilot cross-model characterization, "
+    "without waveform equivalence. "
     "The same geometry passport and feature factory were extended in Isaac Lab: dynamic observations showed "
     "ρ≈−0.48 between early energy and ground-truth distance; Sim-trained linear regression achieved MAE≈0.41 m "
     "and r≈0.47 on Lab hold-out. In-simulation RSL-RL PPO demonstrated a feasible closed loop but did not beat "
@@ -115,7 +118,10 @@ CH1 = [
         "Passport：可版本化之幾何／材質實驗護照。trend-level：趨勢級，允許單調相關但不宣稱絕對誤差達部署規格。"
         "claim boundary：可宣稱與不可宣稱之對照邊界（詳表6.1）。",
     ),
-    ("Content", "貢獻一（主）：建立 UR10 固定 TCP 下可審計 RTX 聲學管線，完成 30/30 可重複性與 RTX×PRA 趨勢對照。"),
+    (
+        "Content",
+        "貢獻一（主）：建立 UR10 固定 TCP 下可審計 RTX 聲學管線，完成 30/30 可重複性與 RTX×PRA pilot 趨勢對照（n=6）。",
+    ),
     ("Content", "貢獻二（次）：延伸至 Isaac Lab 動態觀測與 Sim→Lab 監督遷移（r≈0.47，MAE≈0.41 m）。"),
     ("Content", "貢獻三（附）：示範 in-sim RSL-RL 閉環可跑通；未優於監督基線，僅證訓練迴路可行性。"),
 ]
@@ -180,8 +186,9 @@ CH4 = [
     ("Header2", "4.2 距離趨勢與 RTX×PRA 對照"),
     (
         "Content",
-        "材質 B、5 repeats 平均：amplitude_max 於 1.0 m 後飽和；primary_sgw_early_energy 與距離 ρ≈−0.66。"
-        "RTX 與 PRA early energy 趨勢一致（ρ≈+0.66），振幅尺度不同，屬趨勢級對照。",
+        "材質 B、5 repeats 平均：amplitude_max 於 1.0 m 後飽和；primary_sgw_early_energy 與距離 ρ≈−0.66（n=6）。"
+        "RTX 與 PRA early energy 呈中度正相關趨勢（ρ≈+0.66, p≈0.16, n=6），振幅尺度不同；"
+        "未達統計顯著，僅作 pilot cross-model characterization，非波形等價。",
     ),
     ("Image", "4.1", "圖4.1  RTX amplitude_max 與目標距離（材質 B）"),
     ("Image", "4.2", "圖4.2  RTX primary_sgw_early_energy 與目標距離（材質 B）"),
@@ -268,7 +275,8 @@ CH6 = [
     (
         "Content",
         "電聲觀點：室內多徑使距離資訊主要體現在早期能量之弱趨勢，而非 peak 飽和區。"
-        "模擬觀點：RTX 與 PRA 趨勢可對但模型不同，支持以任務級指標（ρ、CV、PASS）論證可行性。"
+        "模擬觀點：RTX 與 PRA early energy 於 n=6 呈中度趨勢對應（p≈0.16，未達顯著），"
+        "模型機制仍不同，支持以任務級指標（ρ、CV、PASS）論證可行性。"
         "學習觀點：SL 在弱信號下較穩健；RL 低 MAE 需搭配 pred 變異解讀，避免過度宣稱。",
     ),
     ("Header2", "6.3 研究限制與 claim boundary"),
@@ -277,7 +285,11 @@ CH6 = [
         "Table",
         ["範疇", "可宣稱", "不可宣稱"],
         [
-            ["Sim 主實驗", "30/30 可重複；early_energy 趨勢；RTX×PRA 趨勢一致", "波形等價；厘米級測距"],
+            [
+                "Sim 主實驗",
+                "30/30 可重複；early_energy 趨勢；RTX×PRA early energy 中度趨勢（ρ≈+0.66, p≈0.16, n=6, pilot）",
+                "波形等價；跨模型統計顯著一致；厘米級測距",
+            ],
             ["Lab / SL", "動態觀測可行；Sim→Lab 趨勢遷移 r≈0.47", "MAE 0.41 m 可部署；高 R² 即物理測距"],
             ["in-sim RL", "DirectRLEnv 閉環可跑通；GMO 修正後有效", "優於 SL；v3 低 MAE 即學會測距"],
             ["整體", "可審計可行性管線", "CH201 實機已驗證；數位雙生完成"],
@@ -391,6 +403,40 @@ def cleanup_front_matter(doc: Document) -> None:
                 break
 
 
+def paragraph_text(element) -> str:
+    texts = []
+    for node in element.iter():
+        if node.tag.endswith("}t") and node.text:
+            texts.append(node.text)
+    return "".join(texts).strip()
+
+
+def remove_body_between(doc: Document, start_marker: str, end_marker: str) -> None:
+    body = doc.element.body
+    start_el = end_el = None
+    for child in list(body):
+        if child.tag.endswith("}p"):
+            text = paragraph_text(child)
+            if text == start_marker and start_el is None:
+                start_el = child
+            if text == end_marker and start_el is not None:
+                end_el = child
+                break
+    if start_el is None or end_el is None:
+        raise RuntimeError("Cannot find body block")
+
+    removing = False
+    for child in list(body):
+        if child is start_el:
+            removing = True
+            body.remove(child)
+            continue
+        if child is end_el:
+            break
+        if removing:
+            body.remove(child)
+
+
 def replace_body(doc: Document) -> None:
     start = end = None
     for i, p in enumerate(doc.paragraphs):
@@ -404,8 +450,7 @@ def replace_body(doc: Document) -> None:
         raise RuntimeError("Cannot find body block")
 
     anchor = doc.paragraphs[start - 1] if start > 0 else doc.paragraphs[0]
-    for idx in range(end - 1, start - 1, -1):
-        remove_paragraph(doc.paragraphs[idx])
+    remove_body_between(doc, "第一章、緒論", "參考文獻")
 
     body = CH1 + [("Header1", "第二章、文獻探討")] + CH2_FIXED + CH3 + CH4 + CH5 + CH6
     append_items(doc, anchor, body)

@@ -116,7 +116,9 @@ CH34: list[tuple[Any, ...]] = [
     (
         "Content",
         "表4.1 彙整材質 B、5 repeats 平均之 RTX 與 PRA 特徵。amplitude_max 於 1.0 m 後飽和，不適合作為距離單調 proxy；"
-        "primary_sgw_early_energy 與距離呈負相關（Spearman ρ≈−0.66）。RTX 與 PRA early energy 趨勢一致（ρ≈+0.66），但振幅尺度不同，屬趨勢級對照。",
+        "primary_sgw_early_energy 與距離呈負相關（Spearman ρ≈−0.66, n=6）。"
+        "RTX 與 PRA early energy 呈中度正相關趨勢（ρ≈+0.66, p≈0.16, n=6），"
+        "未達顯著，僅 pilot cross-model characterization；振幅尺度不同，非波形等價。",
     ),
     ("Image", "4.1", "圖4.1  RTX amplitude_max 與目標距離之關係（材質 B，5 repeats 平均）"),
     ("Image", "4.2", "圖4.2  RTX primary_sgw_early_energy 與目標距離之關係（材質 B）"),
@@ -156,7 +158,8 @@ CH34: list[tuple[Any, ...]] = [
         "Content",
         "（1）Sim 主結果：primary_sgw_early_energy 優於飽和之 amplitude_max（ρ≈−0.66，30/30 PASS）。"
         "（2）Lab 延伸：動態場景趨勢方向一致（ρ≈−0.48），Sim→Lab SL r≈0.47。"
-        "（3）RTX×PRA：趨勢級一致，非波形等價。（4）CH201 實機應採 task-level 指標；本研究輸出為協定與資料格式參考。",
+        "（3）RTX×PRA：early energy 中度趨勢（ρ≈+0.66, p≈0.16, n=6, pilot），非波形等價。"
+        "（4）CH201 實機應採 task-level 指標；本研究輸出為協定與資料格式參考。",
     ),
     ("Header2", "4.7.1 In-sim RSL-RL 距離估計實驗"),
     (
